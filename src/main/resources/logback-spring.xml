@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <springProperty scope="context" name="logback.logdir" source="logback.logdir"/>
+    <springProperty scope="context" name="logback.appname" source="logback.appname"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss z} %-5level %class.%M %L - %msg%xEx%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="file"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${logback.logdir}/${logback.appname}_%d{yyyy-M-d}.log
+            </FileNamePattern>
+            <MaxHistory>10</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss z} %-5level %class.%M %L - %msg%xEx%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- spring框架日志 -->
+    <logger name="org.springframework" level="info"/>
+
+    <!-- mybatis的日志级别 -->
+    <logger name="org.mybatis" level="debug"/>
+
+    <!-- 系统日志 -->
+    <logger name="com.test.school" level="debug"/>
+
+    <!-- 分页组件 -->
+    <logger name="com.github.pagehelper" level="debug"/>
+
+    <root level="info">
+        <appender-ref ref="stdout" />
+        <appender-ref ref="file"/>
+    </root>
+</configuration>
